@@ -5,10 +5,7 @@ import com.spring_boot.pp_3_1_1.model.User;
 import com.spring_boot.pp_3_1_1.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -54,18 +51,14 @@ public class UserController {
         return "edit_user";
     }
 
+
     @PostMapping(value = "/users/{id}")
     public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
-        User existUser = userService.getUserById(id);
-        existUser.setId(id);
-        existUser.setName(user.getName());
-        existUser.setLastName(user.getLastName());
-        existUser.setAge(user.getAge());
-        userService.updateUser(existUser);
+        userService.updateUser(id, user);
         return "redirect:/users";
     }
 
-    @GetMapping(value = "users/delete/{id}")
+    @DeleteMapping(value = "users/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.removeUserById(id);
         return "redirect:/users";
